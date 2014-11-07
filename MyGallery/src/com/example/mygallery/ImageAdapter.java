@@ -11,9 +11,11 @@ import android.widget.ImageView;
 public class ImageAdapter extends BaseAdapter {
      Context mContext;
      static Bitmap[] mThumbIds = null;
+     static String[] filepath = null;
      int count;
-    public ImageAdapter(Context c,Bitmap[] mThumbIds,int count) {
+    public ImageAdapter(Context c,Bitmap[] mThumbIds,String[] filepath,int count) {
         mContext = c;
+        this.filepath = filepath;
         this.mThumbIds = mThumbIds;
         this.count = count;
     }
