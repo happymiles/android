@@ -30,7 +30,7 @@ public class ImageSource {
 			JSONArray jsonObject = getArr(url);
 			urlList = new String[jsonObject.length()];
 
-			for (int i = 0; i < 3; i++) {
+			for (int i = 0; i < jsonObject.length(); i++) {
 				JSONObject object = jsonObject.getJSONObject(i);
 				if (object.getString("image_group_id").equals(group_id)) {
 					urlList[i] = object.getString("url");
