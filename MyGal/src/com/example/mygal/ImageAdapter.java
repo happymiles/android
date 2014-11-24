@@ -3,6 +3,7 @@ package com.example.mygal;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,7 +19,10 @@ public class ImageAdapter extends BaseAdapter {
 	public ImageAdapter(Context context,String url,String group_id) {
 		this.context = context;
 		if(ImageSource.cache.cache.size()==0)
-			ImageSource.load(url,group_id);		
+		{
+			Log.e("Size",ImageSource.cache.cache.size()+"");
+			ImageSource.load(url,group_id);
+		}
 	}
 
 	public int getCount() {

@@ -14,11 +14,12 @@ import org.json.JSONObject;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.StrictMode;
+import android.util.Log;
 
 public class ImageSource {
 	static MemoryCache cache = new MemoryCache();
 	static String urlList[];
-
+	static String imageslist[];
 	public static void load(String url, String group_id) {
 		Bitmap bitmap;
 
@@ -29,22 +30,27 @@ public class ImageSource {
 		try {
 			JSONArray jsonObject = getArr(url);
 			urlList = new String[jsonObject.length()];
-
+			imageslist = new String[jsonObject.length()];
+			Log.e("Length",jsonObject.length()+"");
 			for (int i = 0; i < jsonObject.length(); i++) {
 				JSONObject object = jsonObject.getJSONObject(i);
 				if (object.getString("image_group_id").equals(group_id)) {
-					urlList[i] = object.getString("url");
-
-					bitmap = BitmapFactory.decodeStream(new URL(urlList[i])
-							.openStream());
-					int width = bitmap.getWidth();
-					int height = bitmap.getHeight();
-					if (width > 2000 || height > 2000)
-						bitmap = Bitmap.createScaledBitmap(bitmap,
-								(int) Math.round(bitmap.getWidth() * 0.5),
-								(int) Math.round(bitmap.getHeight() * 0.5),
-								true);
-					cache.put(i + "", bitmap);
+					urlList[i] = object.getString("thumbnail_url");
+					imageslist[i] = object.getString("url");
+					Log.e(i+"Link", urlList[i]);
+					Log.e("OriginalLink", imageslist[i]);
+					//if (!(urlList[i].equals("http://apod.nasa.gov/apod/image/1107/atlantisapproach_nasa_4288.jpg"))) {
+						bitmap = BitmapFactory.decodeStream(new URL(urlList[i])
+								.openStream());
+						int width = bitmap.getWidth();
+						int height = bitmap.getHeight();
+						if (width > 2000 || height > 2000)
+							bitmap = Bitmap.createScaledBitmap(bitmap,
+									(int) Math.round(bitmap.getWidth() * 0.5),
+									(int) Math.round(bitmap.getHeight() * 0.5),
+									true);
+						cache.put(i + "", bitmap);
+					//}
 				}
 			}
 		} catch (JSONException e) {
