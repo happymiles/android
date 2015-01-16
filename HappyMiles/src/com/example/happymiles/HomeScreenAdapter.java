@@ -3,8 +3,10 @@ package com.example.happymiles;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +15,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class HomeScreenAdapter extends BaseAdapter{
+public class HomeScreenAdapter extends BaseAdapter {
 
+	static Bitmap images[];
 	Context context;
-	String urlList[];
-	String descriptions[];
-	public HomeScreenAdapter(Context context,String urlList[],String descriptions[]) {
+	ArrayList<String> url,desc;
+	public HomeScreenAdapter(Context context, ArrayList<String> url, ArrayList<String> desc) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
-		this.urlList = urlList;
-		this.descriptions = descriptions;
+		this.url = url;
+		this.desc = desc;
+		images = new Bitmap[url.size()];
 	}
+
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return urlList.length;
+		return url.size();
 	}
 
 	@Override
@@ -45,14 +49,22 @@ public class HomeScreenAdapter extends BaseAdapter{
 	@Override
 	public View getView(int arg0, View arg1, ViewGroup arg2) {
 		// TODO Auto-generated method stub
-		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater layoutInflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = layoutInflater.inflate(R.layout.homescreenitem, null);
 		ImageView imageView = (ImageView) view.findViewById(R.id.imageView1);
 		TextView textView = (TextView) view.findViewById(R.id.textView1);
-		
+
 		try {
-			imageView.setImageBitmap(BitmapFactory.decodeStream(new URL(urlList[arg0])
-			.openStream()));
+			if (HomeScreenAdapter.images[arg0] == null)
+			{
+				Bitmap image = BitmapFactory.decodeStream(new URL(
+						url.get(arg0).toString()).openStream());
+				imageView.setImageBitmap(image);
+				images[arg0]=image;
+			}
+			else
+				imageView.setImageBitmap(images[arg0]);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,8 +72,7 @@ public class HomeScreenAdapter extends BaseAdapter{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		textView.setText(descriptions[arg0]);
+		textView.setText(desc.get(arg0).toString());
 		return view;
 	}
-
 }

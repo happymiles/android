@@ -4,6 +4,7 @@ import com.example.mygal.ViewPagerAdapter;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 public class ImageScreen extends Activity {
 
@@ -13,6 +14,7 @@ public class ImageScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_image_screen);
+		Log.e("ImageScreen", "Started");
 		pager = (ViewPager) findViewById(R.id.pager);
 		adapter = new ViewPagerAdapter(ImageScreen.this, R.layout.viewpager_item,
 				R.id.flag, R.id.progressBar);
@@ -24,5 +26,6 @@ public class ImageScreen extends Activity {
 	public void onBackPressed() {
 		adapter.backPressed();
 		super.onBackPressed();
+		System.gc();
 	}
 }
